@@ -85,7 +85,7 @@ jobs:
             -e ROOTDIR=/work \
             -e REPO_OWNER='${{ github.repository_owner }}' \
             "$IMAGE" \
-            bash -c 'scripts/make-ndk.sh'
+            bash -c 'bash -x scripts/make-ndk.sh 2>&1'
 
       - name: Set artifact name
         run: |
