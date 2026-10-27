@@ -1,0 +1,33 @@
+name: Make NDK for Android (bionic arm64)
+on:
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: "版本矩阵(JSON): NDK 版本+修订字母(须已有对应 LLVM release)"
+        required: false
+        type: string
+        default: '[{"version":"26","revision":"d"},{"version":"27","revision":"d"},{"version":"28","revision":"c"},{"version":"29","revision":""}]'
+      only:
+        description: "只要这些目标(JSON)"
+        required: false
+        type: string
+        default: '["aarch64-linux-android"]'
+
+permissions:
+  contents: write
+  packages: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(inputs.versions) }}
+    uses: ./.github/workflows/make-ndk.yml
+    secrets: inherit
+    with:
+      platform: bionic
+      version: ${{ matrix.version }}
+      revision: ${{ matrix.revision }}
+      only: ${{ inputs.only }}
+      targets: '["aarch64-linux-android", "armv7a-linux-androideabi", "i686-linux-android", "x86_64-linux-android"]'
