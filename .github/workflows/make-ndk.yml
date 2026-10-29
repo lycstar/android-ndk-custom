@@ -106,7 +106,7 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1.21.0
         with:
-          name: "NDK r${{ inputs.version }}${{ inputs.revision }}"
+          name: "Android NDK r${{ inputs.version }}${{ inputs.revision }}"
           tag: "ndk-r${{ inputs.version }}${{ inputs.revision }}"
           artifacts: ${{ github.workspace }}/${{ env.ARTIFACT }}
           allowUpdates: true
