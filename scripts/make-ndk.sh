@@ -15,6 +15,7 @@
 #   ROOTDIR     work dir = checkout root (default: cwd); holds sources/ config/
 #               patches/. HOME is also set here in CI.
 #   REPO_OWNER  GitHub owner for the llvm-custom release download (default HomuHomu833)
+#   LLVM_RELEASE_TAG  optional upstream tag override (default llvm-r<version><revision>)
 #   EXTRA_CMAKE_FLAGS  optional extra -D flags for the cmake (shaderc) configure
 #
 # Build make/yasm/shaderc/python (and python's static deps), fetch the llvm-custom
@@ -1239,7 +1240,7 @@ install_python2() {
 fetch_llvm() {
   local name="${LLVM_PKG}-r${NDK_VERSION}${NDK_REVISION}-${TARGET}"
   log "Fetching LLVM ($name)"
-  fetch_unpack "https://github.com/${REPO_OWNER}/llvm-custom/releases/download/llvm-r${NDK_VERSION}/${name}.tar.xz" \
+  fetch_unpack "https://github.com/${REPO_OWNER}/llvm-custom/releases/download/${LLVM_RELEASE_TAG:-llvm-r${NDK_VERSION}${NDK_REVISION}}/${name}.tar.xz" \
     /tmp/llvm-custom.tar.xz "$BUILD"
   HOST_TOOLCHAIN="$BUILD/$name"
 }

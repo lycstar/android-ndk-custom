@@ -22,6 +22,11 @@ on:
         required: false
         type: string
         default: ""
+      llvm_release_tag:
+        description: "Matching LLVM release tag; default llvm-r<version><revision>"
+        required: false
+        type: string
+        default: ""
       llvm_owner:
         description: "Owner of the exact matching llvm-custom release"
         required: false
@@ -89,6 +94,7 @@ jobs:
             -e NDK_REVISION='${{ inputs.revision }}' \
             -e ROOTDIR=/work \
             -e REPO_OWNER='${{ inputs.llvm_owner || github.repository_owner }}' \
+            -e LLVM_RELEASE_TAG='${{ inputs.llvm_release_tag }}' \
             "$IMAGE" \
             bash -c 'bash -x scripts/make-ndk.sh 2>&1'
 
