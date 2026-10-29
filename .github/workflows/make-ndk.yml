@@ -22,6 +22,11 @@ on:
         required: false
         type: string
         default: ""
+      llvm_owner:
+        description: "Owner of the exact matching llvm-custom release"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -83,7 +88,7 @@ jobs:
             -e NDK_VERSION='${{ inputs.version }}' \
             -e NDK_REVISION='${{ inputs.revision }}' \
             -e ROOTDIR=/work \
-            -e REPO_OWNER='${{ github.repository_owner }}' \
+            -e REPO_OWNER='${{ inputs.llvm_owner || github.repository_owner }}' \
             "$IMAGE" \
             bash -c 'bash -x scripts/make-ndk.sh 2>&1'
 
@@ -95,8 +100,8 @@ jobs:
       - name: Release
         uses: ncipollo/release-action@v1.21.0
         with:
-          name: "r${{ inputs.version }}"
-          tag: "r${{ inputs.version }}"
+          name: "NDK r${{ inputs.version }}${{ inputs.revision }}"
+          tag: "ndk-r${{ inputs.version }}${{ inputs.revision }}"
           artifacts: ${{ github.workspace }}/${{ env.ARTIFACT }}
           allowUpdates: true
           replacesArtifacts: true

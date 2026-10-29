@@ -7,6 +7,11 @@ on:
         required: false
         type: string
         default: '[{"version":"26","revision":"d"},{"version":"27","revision":"d"},{"version":"28","revision":"c"},{"version":"29","revision":""}]'
+      llvm_owner:
+        description: "Owner of the matching llvm-custom release"
+        required: false
+        type: string
+        default: "lycstar"
       only:
         description: "只要这些目标(JSON)"
         required: false
@@ -29,5 +34,6 @@ jobs:
       platform: bionic
       version: ${{ matrix.version }}
       revision: ${{ matrix.revision }}
+      llvm_owner: ${{ inputs.llvm_owner }}
       only: ${{ inputs.only }}
       targets: '["aarch64-linux-android", "armv7a-linux-androideabi", "i686-linux-android", "x86_64-linux-android"]'
